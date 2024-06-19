@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Child</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="styleform.css">
+</head>
+<body>
+      
+  <div class="container">
+    <h1>Child Registration</h1>
+    <form id="childregisterform">
+      <div class="userdetails">
+         <div class="input">
+            <input type="hidden" id="parent_id">
+            <span>Child's Name:</span>
+            <input type="text" id="name" placeholder="Enter your child's name" required>
+         </div>
+        
+         <div class="input">
+             <span>Age:</span>
+             <input type="number" id="age" placeholder="Enter your child's Age" required>
+        </div>
+
+        <div class="input">
+          <span>Password</span>
+          <input type="password" id="password" placeholder="Enter your Password" required>
+       </div>
+
+        <div class="input">
+          <span>Confirm Password:</span>
+          <input type="password" id="confirmpassword" placeholder="Confirm your password" required>
+        </div>
+
+        <button type="submit">Register Child </button><br>
+      </div>
+    </form>
+    <p id="status"></p>
+  </div>
+ <script src="registerchild.js"></script>
+</body>
+</html>
