@@ -21,11 +21,16 @@ document.getElementById("registerform").addEventListener('submit', async functio
         },
             body: JSON.stringify({name, email, password})
         });
-        const data = await response.json();
-        const id = data.unique_id;
-        localStorage.setItem("id", id);
-        alert("User registered Successfully");
-        window.location.href = 'register_child.html';
+        if (response.ok) {
+            const data = await response.json();
+            const id = data.uniqueid; 
+            localStorage.setItem('id', id);
+            alert('User registered successfully');
+            window.location.href = 'register_child.html';
+        } else {
+            const errorData = await response.json();
+            alert('Error: ' + errorData.error);
+        }
     }
     catch(error)
     {

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Locations</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>User Locations</h1>
+    <table id="userTable">
+        <thead>
+            <tr>
+                <th>Child Name</th>
+                <th>Longitude</th>
+                <th>Latitude</th>
+                <th>Timestamp</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Rows will be added here dynamically -->
+        </tbody>
+    </table>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+    let parent_id = localStorage.getItem('id');
+    try {
+        const response = await fetch(`http://localhost:3000/child?parent_id=${parent_id}`);
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const users = await response.json();
+
+        const tableBody = document.getElementById('userTable').querySelector('tbody');
+
+        users.forEach(user => {
+            const row = document.createElement('tr');
+
+            const childNameCell = document.createElement('td');
+            childNameCell.textContent = user.name;
+            row.appendChild(childNameCell);
+
+            const longitudeCell = document.createElement('td');
+            longitudeCell.textContent = user.longitude;
+            row.appendChild(longitudeCell);
+
+            const latitudeCell = document.createElement('td');
+            latitudeCell.textContent = user.latitude;
+            row.appendChild(latitudeCell);
+
+            const timestampCell = document.createElement('td');
+            timestampCell.textContent = new Date(user.timestamp).toLocaleString();
+            row.appendChild(timestampCell);
+
+            tableBody.appendChild(row);
+        });
+    } catch (error) {
+        console.error('Error fetching user data:', error);
+    }
+});
+
+</script>
+
+</body>
+</html>

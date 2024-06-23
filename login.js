@@ -28,7 +28,7 @@ document.getElementById('loginform').addEventListener('submit', async function(e
       localStorage.setItem('token', token);
       
       alert('Logged in successfully');
-      window.location.href = 'index.html'; // Redirect to home page or any other page
+      window.location.href = 'location.html';
     } catch (error) {
       console.error('Error logging in:', error.message);
       alert('Failed to login');
