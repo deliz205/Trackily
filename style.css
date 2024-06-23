@@ -1,36 +1,33 @@
-*
-{
+* {
     margin: 0;
-    padding: 0; 
+    padding: 0;
 }
-body{
+
+body {
     margin: 0;
     background: #fafafa;
 }
 
-.banner{
+.banner {
     position: relative;
     height: 100vh;
-    background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('images/familia.jpg');
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('images/familia.jpg');
     background-size: cover;
-    background-position:center;
-    color: whitesmoke; 
+    background-position: center;
+    color: whitesmoke;
     display: flex;
     flex-direction: column;
-    justify-content: center; 
+    justify-content: center;
     align-items: center;
-    padding: 0 20px;    
+    padding: 0 20px;
     max-width: 100%;
 }
 
-.des
-{
+.des {
     text-align: center;
 }
 
-
-.newuser
-{
+.newuser {
     border-radius: 7px;
     margin-top: 10px;
     background-color: antiquewhite;
@@ -40,83 +37,146 @@ body{
     color: black;
 }
 
-.header{
+.header {
     color: #fafafa;
     height: 70px;
     margin: auto;
-    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7 )),wheat;
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), wheat;
 }
-.icon
-{   
+
+.icon {
     float: left;
     width: 200px;
     height: 70px;
 }
 
-.logo
-{
+.logo {
     padding: 10px;
     font-size: 30px;
     font-style: oblique;
     color: wheat;
 }
 
-
-ul{
+ul {
     float: right;
     display: flex;
     flex-direction: row;
     width: 260px;
     justify-content: space-around;
     padding: 20px;
-    
 }
 
-li{
+li {
     list-style: none;
 }
 
-li a
-{
+li a {
     color: white;
     text-decoration: none;
 }
 
-
-li a::after 
-{
+li a::after {
     content: '';
     width: 0;
     height: 3px;
     background-color: wheat;
     margin: auto;
-    display: block ;
+    display: block;
 }
 
-li a:link
-{
+li a:link {
     color: white;
 }
 
-li a:hover::after
-{
+li a:hover::after {
     width: 100%;
     transition: width 0.3s linear;
 }
 
-li a:hover{
+li a:hover {
     color: wheat;
 }
 
-li a:active
-{
+li a:active {
     color: wheat;
-   
 }
 
-button a
-{
+button a {
     text-decoration: none;
     color: black;
 }
 
+/* Media Queries for Responsiveness */
+@media screen and (max-width: 768px) {
+    .header {
+        height: auto;
+        padding: 10px;
+    }
+
+    .icon {
+        width: 150px;
+        height: auto;
+    }
+
+    .logo {
+        font-size: 24px;
+        text-align: center;
+    }
+
+    ul {
+        width: 100%;
+        justify-content: space-between;
+        padding: 10px;
+    }
+
+    ul li {
+        padding: 5px 0;
+    }
+
+    .banner {
+        padding: 0 10px;
+    }
+
+    .newuser {
+        width: 120px;
+        height: 25px;
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .banner {
+        padding: 0 5px;
+    }
+
+    .header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .icon {
+        width: 120px;
+        height: auto;
+    }
+
+    .logo {
+        font-size: 20px;
+    }
+
+    ul {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    ul li {
+        padding: 10px 0;
+    }
+
+    .newuser {
+        width: 100px;
+        height: 20px;
+        font-size: 12px;
+    }
+}
