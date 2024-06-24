@@ -14,15 +14,13 @@ document.getElementById('trackLocation').addEventListener('click', function() {
 function showPosition(position) {
     var latitude = position.coords.latitude;
     var longitude = position.coords.longitude;
-    var timestamp = new Date(position.timestamp);
 
     document.getElementById('coords').innerHTML = "Latitude: " + latitude + 
-    "<br>Longitude: " + longitude + 
-    "<br>Last updated: " + timestamp.toLocaleTimeString();
+    "<br>Longitude: " + longitude;
 
     document.getElementById('status').innerHTML = "Location updated.";
 
-    console.log(`Location updated: Latitude = ${latitude}, Longitude = ${longitude}, Timestamp = ${timestamp}`);
+    console.log(`Location updated: Latitude = ${latitude}, Longitude = ${longitude}`);
  
     const childId = localStorage.getItem('child_id')
     const parent_id = localStorage.getItem('childparent_id')
@@ -35,7 +33,6 @@ function showPosition(position) {
         body: JSON.stringify({
             latitude: latitude,
             longitude: longitude,
-            timestamp: timestamp,
             child_id: childId,
             parent_id: parent_id
         })

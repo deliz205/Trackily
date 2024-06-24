@@ -189,11 +189,11 @@ app.post('/childlogin', (req, res) => {
 
 // Tracking Endpoint
 app.post('/updateLocation', (req, res) => {
-  const { child_id, parent_id, latitude, longitude, timestamp } = req.body;
+  const { child_id, parent_id, latitude, longitude} = req.body;
 
   connection.query(
-    'INSERT INTO tracking (parentId, childId, Longitude, Latitude, TimeStamp) VALUES (?, ?, ?, ?, ?)',
-    [parent_id, child_id, longitude, latitude, timestamp],
+    'INSERT INTO tracking (parentId, childId, Longitude, Latitude) VALUES (?, ?, ?, ?)',
+    [parent_id, child_id, longitude, latitude],
     (err, result) => {
       if (err) {
         console.error('Error inserting tracking log into database:', err);
@@ -207,8 +207,7 @@ app.post('/updateLocation', (req, res) => {
         child_id,
         parent_id,
         latitude,
-        longitude,
-        timestamp
+        longitude
       });
 
       wss.clients.forEach(client => {
@@ -217,7 +216,7 @@ app.post('/updateLocation', (req, res) => {
         }
       });
 
-      console.log(`Received location: Latitude = ${latitude}, Longitude = ${longitude}, timestamp = ${timestamp}`);
+      console.log(`Received location: Latitude = ${latitude}, Longitude = ${longitude}`);
     }
   );
 });
@@ -242,8 +241,7 @@ app.get('/child', (req, res) => {
         tracking.ChildId, 
         children.name as childName,
         tracking.latitude, 
-        tracking.longitude, 
-        tracking.timestamp 
+        tracking.longitude
       FROM tracking 
       JOIN children ON tracking.ChildId = children.child_id 
       WHERE tracking.ChildId IN (${childIds.join(',')})
