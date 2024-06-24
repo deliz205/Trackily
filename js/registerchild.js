@@ -13,7 +13,7 @@ document.getElementById('childregisterform').addEventListener('submit', async fu
 
 
     try {
-        const response = await fetch('http://localhost:3000/registerChild', {
+        const response = await fetch('https://trackily.onrender.com/registerChild', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

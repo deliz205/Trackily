@@ -27,7 +27,7 @@ function showPosition(position) {
     const childId = localStorage.getItem('child_id')
     const parent_id = localStorage.getItem('childparent_id')
     // Send the data to the server
-    fetch('http://localhost:3000/updateLocation', {
+    fetch('https://trackily.onrender.com/updateLocation', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

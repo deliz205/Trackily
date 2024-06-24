@@ -7,7 +7,7 @@ document.getElementById('loginform').addEventListener('submit', async function(e
     const password = document.getElementById('password').value;
     
     try {
-      const response = await fetch('http://localhost:3000/login', {
+      const response = await fetch('https://trackily.onrender.com/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
