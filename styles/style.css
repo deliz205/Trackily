@@ -20,7 +20,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #333;
+    background: #4130c6;
     color: #fafafa;
     padding: 15px 30px;
 }
@@ -56,7 +56,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('images/familia.jpg') no-repeat center center/cover;
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('../images/familia.jpg') no-repeat center center/cover;
     color: whitesmoke;
     text-align: center;
     padding: 20px;
@@ -73,7 +73,7 @@ body {
 }
 
 .banner .newuser {
-    background-color: antiquewhite;
+    background-color: #655aba;
     border: none;
     border-radius: 7px;
     padding: 10px 20px;
