@@ -5,104 +5,112 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Locations</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        * {
             margin: 0;
-            padding: 20px;
-            background-color: #f4f4f4;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f2f2f2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
 
         .container {
             max-width: 800px;
-            margin: 0 auto;
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
+            width: 100%;
+            background-color: #fff;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            padding: 20px;
         }
 
         h1 {
+            font-size: 2em;
             text-align: center;
             margin-bottom: 20px;
+            color: #333;
         }
 
-        table {
+        #map {
+            height: 500px;
             width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
         }
 
-        table, th, td {
-            border: 1px solid #ddd;
+        @media screen and (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 1.5em;
+            }
         }
 
-        th, td {
-            padding: 12px;
-            text-align: left;
-        }
+        @media screen and (max-width: 480px) {
+            h1 {
+                font-size: 1.2em;
+            }
 
-        th {
-            background-color: #f4f4f4;
+            #map {
+                height: 300px;
+            }
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>User Locations</h1>
-    <table id="userTable">
-        <thead>
-            <tr>
-                <th>Child Name</th>
-                <th>Longitude</th>
-                <th>Latitude</th>
-                <th>Timestamp</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Rows will be added here dynamically -->
-        </tbody>
-    </table>
+    <h1><span id="name">User</span>'s Locations</h1>
+    <div id="map"></div>
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', async () => {
-    let parent_id = localStorage.getItem('id');
-    try {
-        const response = await fetch(`http://localhost:3000/child?parent_id=${parent_id}`);
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        const users = await response.json();
-
-        const tableBody = document.getElementById('userTable').querySelector('tbody');
-
-        users.forEach(user => {
-            const row = document.createElement('tr');
-
-            const childNameCell = document.createElement('td');
-            childNameCell.textContent = user.name;
-            row.appendChild(childNameCell);
-
-            const longitudeCell = document.createElement('td');
-            longitudeCell.textContent = user.longitude;
-            row.appendChild(longitudeCell);
-
-            const latitudeCell = document.createElement('td');
-            latitudeCell.textContent = user.latitude;
-            row.appendChild(latitudeCell);
-
-            const timestampCell = document.createElement('td');
-            timestampCell.textContent = new Date(user.timestamp).toLocaleString();
-            row.appendChild(timestampCell);
-
-            tableBody.appendChild(row);
+    const googleMapsApiKey = 'AIzaSyDkC4LE-Vaj2kjdr3Qp0aFlUYDvnaIoqsY';
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDkC4LE-Vaj2kjdr3Qp0aFlUYDvnaIoqsY&callback=initMap" async defer></script>
+<script>
+    async function initMap() {
+        const map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 2, // Initial zoom level
+            center: { lat: 0, lng: 0 } // Initial center of the map
         });
-    } catch (error) {
-        console.error('Error fetching user data:', error);
-    }
-});
 
+        let parent_id = localStorage.getItem('id');
+        try {
+            const response = await fetch(`http://localhost:3000/child?parent_id=${parent_id}`);
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const users = await response.json();
+
+            if (users.length > 0) {
+                const firstUser = users[0];
+                const firstPosition = { lat: parseFloat(firstUser.latitude), lng: parseFloat(firstUser.longitude) };
+                map.setCenter(firstPosition);
+                map.setZoom(15); 
+
+                users.forEach(user => {
+                    const marker = new google.maps.Marker({
+                        position: { lat: parseFloat(user.latitude), lng: parseFloat(user.longitude) },
+                        map: map,
+                        title: `Child Name: ${user.childName}`
+                    });
+                });
+                
+                // Set the name of the first user in the heading
+                document.getElementById('name').textContent = firstUser.childName;
+            }
+        } catch (error) {
+            console.error('Error fetching user data:', error);
+        }
+    }
 </script>
 
 </body>

@@ -1,0 +1,136 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: #f0f0f0;
+    color: #333;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #333;
+    color: #fafafa;
+    padding: 15px 30px;
+}
+
+.icon .logo {
+    font-size: 30px;
+    font-style: oblique;
+    color: wheat;
+}
+
+.register ul {
+    display: flex;
+    list-style: none;
+}
+
+.register ul li {
+    margin-left: 20px;
+}
+
+.register ul li a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.register ul li a:hover {
+    color: wheat;
+}
+
+.banner {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('images/familia.jpg') no-repeat center center/cover;
+    color: whitesmoke;
+    text-align: center;
+    padding: 20px;
+}
+
+.banner .greet {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.banner .des {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+.banner .newuser {
+    background-color: antiquewhite;
+    border: none;
+    border-radius: 7px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.banner .newuser a {
+    text-decoration: none;
+    color: black;
+}
+
+.banner .newuser:hover {
+    background-color: #ffebcd;
+}
+
+/* Media Queries for Responsiveness */
+@media screen and (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .icon .logo {
+        font-size: 24px;
+    }
+
+    .register ul {
+        margin-top: 10px;
+    }
+
+    .banner .greet {
+        font-size: 2rem;
+    }
+
+    .banner .des {
+        font-size: 1rem;
+    }
+
+    .banner .newuser {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .banner .greet {
+        font-size: 1.5rem;
+    }
+
+    .banner .des {
+        font-size: 0.9rem;
+    }
+
+    .banner .newuser {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+}

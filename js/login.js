@@ -27,8 +27,7 @@ document.getElementById('loginform').addEventListener('submit', async function(e
       // Store JWT token in local storage
       localStorage.setItem('token', token);
       
-      alert('Logged in successfully');
-      window.location.href = 'location.html';
+      window.location.href = 'parents.html';
     } catch (error) {
       console.error('Error logging in:', error.message);
       alert('Failed to login');

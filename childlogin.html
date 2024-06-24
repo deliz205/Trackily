@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Log in</title>
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
-    <link rel="stylesheet" href="logincss.css">
+    <link rel="stylesheet" href="/styles/logincss.css">
 </head>
 <body>
   <div class="container">
@@ -22,10 +22,13 @@
         <input type="password" id="password" placeholder="Enter your Password">
       </div>
 
-      <button type="submit">Log In </button><br>
+      <button type="submit" id="loginButton">
+        Log In 
+        <div class="spinner" id="spinner"></div>
+      </button><br>
     </form>
     
   </div>
-  <script src="childlogin.js"></script>
+  <script src="/js/childlogin.js"></script>
 </body>
 </html>

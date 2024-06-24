@@ -1,7 +1,7 @@
 const express = require('express');
-const mysql = require("mysql");
+const mysql = require('mysql');
 const dotenv = require('dotenv');
-const bcrypt = require("bcrypt");
+const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
 const WebSocket = require('ws');
@@ -37,7 +37,6 @@ const wss = new WebSocket.Server({ server });
 
 wss.on('connection', (ws, req) => {
   ws.on('message', (message) => {
-    // Expecting message in the format: { type: 'subscribe', parent_id: 'parent123' }
     const data = JSON.parse(message);
     if (data.type === 'subscribe' && data.parent_id) {
       ws.parentId = data.parent_id;
@@ -224,17 +223,42 @@ app.post('/updateLocation', (req, res) => {
 });
 
 app.get('/child', (req, res) => {
-  const parentId = req.query.parent_id; 
-  const query = 'SELECT * FROM children WHERE parent_id = ?';
+  const parentId = req.query.parent_id;
+  const childQuery = 'SELECT child_id, name FROM children WHERE parent_id = ?';
 
-  connection.query(query, [parentId], (err, results) => {
+  connection.query(childQuery, [parentId], (err, childResults) => {
+    if (err) {
+      console.error('Error fetching children:', err);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+
+    if (childResults.length === 0) {
+      return res.status(404).json({ message: 'No children found for the given parent ID' });
+    }
+
+    const childIds = childResults.map(child => child.child_id);
+    const trackingQuery = `
+      SELECT 
+        tracking.ChildId, 
+        children.name as childName,
+        tracking.latitude, 
+        tracking.longitude, 
+        tracking.timestamp 
+      FROM tracking 
+      JOIN children ON tracking.ChildId = children.child_id 
+      WHERE tracking.ChildId IN (${childIds.join(',')})
+    `;
+
+    connection.query(trackingQuery, (err, trackingResults) => {
       if (err) {
-          console.error('Error fetching children:', err);
-          return res.status(500).json({ error: 'Internal server error' });
+        console.error('Error fetching tracking data:', err);
+        return res.status(500).json({ error: 'Internal server error' });
       }
-      res.json(results);
+      res.json(trackingResults);
+    });
   });
 });
+
 
 
 const PORT = process.env.PORT || 3000;

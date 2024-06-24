@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register Child</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <link rel="stylesheet" href="styleform.css">
+    <link rel="stylesheet" href="/styles/regStyle.css">
 </head>
 <body>
       
@@ -34,11 +34,14 @@
           <input type="password" id="confirmpassword" placeholder="Confirm your password" required>
         </div>
 
-        <button type="submit">Register Child </button><br>
+        <button type="submit" id="loginButton">
+          Register Child
+          <div class="spinner" id="spinner"></div>
+        </button><br>
       </div>
     </form>
     <p id="status"></p>
   </div>
- <script src="registerchild.js"></script>
+ <script src="/js/registerchild.js"></script>
 </body>
 </html>
