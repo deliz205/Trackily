@@ -84,7 +84,7 @@
 
         let parent_id = localStorage.getItem('id');
         try {
-            const response = await fetch(`http://localhost:3000/child?parent_id=${parent_id}`);
+            const response = await fetch(`https://trackily.onrender.com/child?parent_id=${parent_id}`);
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
