@@ -189,37 +189,79 @@ app.post('/childlogin', (req, res) => {
 
 // Tracking Endpoint
 app.post('/updateLocation', (req, res) => {
-  const { child_id, parent_id, latitude, longitude} = req.body;
+  const { child_id, parent_id, latitude, longitude } = req.body;
 
   connection.query(
-    'INSERT INTO tracking (parentId, childId, Longitude, Latitude) VALUES (?, ?, ?, ?)',
-    [parent_id, child_id, longitude, latitude],
-    (err, result) => {
+    'SELECT * FROM tracking WHERE childId = ?',
+    [child_id],
+    (err, results) => {
       if (err) {
-        console.error('Error inserting tracking log into database:', err);
+        console.error('Error querying the database:', err);
         res.status(500).json({ error: 'Internal server error' });
         return;
       }
-      res.status(201).json({ message: 'Tracking log registered successfully' });
 
-      // Notify all connected clients about the location update
-      const locationUpdate = JSON.stringify({
-        child_id,
-        parent_id,
-        latitude,
-        longitude
-      });
+      if (results.length > 0) {
+        // Update existing record
+        connection.query(
+          'UPDATE tracking SET parentId = ?, Latitude = ?, Longitude = ? WHERE childId = ?',
+          [parent_id, latitude, longitude, child_id],
+          (err, result) => {
+            if (err) {
+              console.error('Error updating tracking log in database:', err);
+              res.status(500).json({ error: 'Internal server error' });
+              return;
+            }
+            res.status(200).json({ message: 'Tracking log updated successfully' });
 
-      wss.clients.forEach(client => {
-        if (client.readyState === WebSocket.OPEN && client.parentId === parent_id) {
-          client.send(locationUpdate);
-        }
-      });
+            const locationUpdate = JSON.stringify({
+              child_id,
+              parent_id,
+              latitude,
+              longitude
+            });
 
-      console.log(`Received location: Latitude = ${latitude}, Longitude = ${longitude}`);
+            wss.clients.forEach(client => {
+              if (client.readyState === WebSocket.OPEN && client.parentId === parent_id) {
+                client.send(locationUpdate);
+              }
+            });
+          }
+        );
+      } else {
+        
+        connection.query(
+          'INSERT INTO tracking (parentId, childId, Longitude, Latitude) VALUES (?, ?, ?, ?)',
+          [parent_id, child_id, longitude, latitude],
+          (err, result) => {
+            if (err) {
+              console.error('Error inserting tracking log into database:', err);
+              res.status(500).json({ error: 'Internal server error' });
+              return;
+            }
+            res.status(201).json({ message: 'Tracking log registered successfully' });
+
+            // Notify all connected clients about the location update
+            const locationUpdate = JSON.stringify({
+              child_id,
+              parent_id,
+              latitude,
+              longitude
+            });
+
+            wss.clients.forEach(client => {
+              if (client.readyState === WebSocket.OPEN && client.parentId === parent_id) {
+                client.send(locationUpdate);
+              }
+            });
+
+          }
+        );
+      }
     }
   );
 });
+
 
 app.get('/child', (req, res) => {
   const parentId = req.query.parent_id;
