@@ -192,7 +192,7 @@ app.post('/updateLocation', (req, res) => {
   const { child_id, parent_id, latitude, longitude } = req.body;
 
   connection.query(
-    'SELECT * FROM tracking WHERE childId = ?',
+    'SELECT * FROM tracking WHERE ChildId = ?',
     [child_id],
     (err, results) => {
       if (err) {
@@ -204,7 +204,7 @@ app.post('/updateLocation', (req, res) => {
       if (results.length > 0) {
         // Update existing record
         connection.query(
-          'UPDATE tracking SET parentId = ?, Latitude = ?, Longitude = ? WHERE childId = ?',
+          'UPDATE tracking SET ParentId = ?, Latitude = ?, Longitude = ? WHERE ChildId = ?',
           [parent_id, latitude, longitude, child_id],
           (err, result) => {
             if (err) {
@@ -231,7 +231,7 @@ app.post('/updateLocation', (req, res) => {
       } else {
         
         connection.query(
-          'INSERT INTO tracking (parentId, childId, Longitude, Latitude) VALUES (?, ?, ?, ?)',
+          'INSERT INTO tracking (ParentId, ChildId, Longitude, Latitude) VALUES (?, ?, ?, ?)',
           [parent_id, child_id, longitude, latitude],
           (err, result) => {
             if (err) {
